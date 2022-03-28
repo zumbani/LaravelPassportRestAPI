@@ -82,7 +82,7 @@ class FitmentQuotationController extends Controller
         $fitment_quotation->fitment_cost =  $request->fitment_cost;
         $fitment_quotation->fitment_centre_id =  $request->fitment_centre_id;
         $fitment_quotation->first_name = $request->first_name;
-        $fitment_quotation->last_name = $request->vin;
+        $fitment_quotation->last_name = $request->last_name;
         $fitment_quotation->email = $request->email;
         $fitment_quotation->mobile = $request->mobile;
         $fitment_quotation->accepted = $request->accepted;
