@@ -12,6 +12,8 @@ Once you clone the project , run **composer install** inside the project directo
 
  5. run **php artisan passport:install**  to generate encryption keys for creating secure access tokens
  
+ Once you are done , run **php artisan serve** inside the project directory **yonder-glass-guru** to start the web server.
+ 
   ### USE POSTMAN TO TEST THE REST API
  
  6. Create a new testing user by posting [**POST**] the following parameters  **[name , email , password]** to the **http://localhost:8000/api/signup**  endpoint
