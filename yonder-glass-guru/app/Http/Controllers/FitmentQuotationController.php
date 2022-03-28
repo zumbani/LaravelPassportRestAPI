@@ -32,7 +32,7 @@ class FitmentQuotationController extends Controller
                 return response()->json([
                     'success' => true,
                     'reference' => uniqid(), 
-                    //This is a placeholder for the  fitment cost value 
+                    //This is a placeholder for the  fitment cost value. A randonly generated figure for testing
                     'fitment_cost'    => rand(500,999),        
                     'data' => $text_array
                 ], 400);
@@ -53,8 +53,9 @@ class FitmentQuotationController extends Controller
 
     public function quotation_response(Request $request)
     {        
+     
         $this->validate($request, [
-            'reference' =>  ['required', 'unique:fitment_quotations', 'max:255'],
+            'reference' =>  ['required'],
             'vin' => 'required',
             'make' => 'required',
             'manufacturer' => 'required',
@@ -63,39 +64,50 @@ class FitmentQuotationController extends Controller
             'issue_date' => 'required',
             'expires_date' => 'required',
             'fitment_cost' => 'required',
-            'fitment_centre_id' => 'required',
+            'fitment_centre_id' => ['required','integer', 'exists:fitment_centres,id'],
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
             'mobile' => 'required',
             'accepted' => 'required',
         ]);
+       //Check if the quotation has already been created first
+        $fitment_quotation = FitmentQuotation::where('reference' , request('reference'))->first();
 
-        $fitment_quotation = FitmentQuotation::firstOrNew(['reference' =>  request('reference')]);
-        $fitment_quotation->vin = $request->vin;
-        $fitment_quotation->make = $request->make;
-        $fitment_quotation->manufacturer =  $request->manufacturer;
-        $fitment_quotation->year =  $request->year;
-        $fitment_quotation->registration =  $request->registration;
-        $fitment_quotation->issue_date =  date("Y-m-d", strtotime($request->issue_date));
-        $fitment_quotation->expires_date =   date("Y-m-d", strtotime($request->expires_date));
-        $fitment_quotation->fitment_cost =  $request->fitment_cost;
-        $fitment_quotation->fitment_centre_id =  $request->fitment_centre_id;
-        $fitment_quotation->first_name = $request->first_name;
-        $fitment_quotation->last_name = $request->last_name;
-        $fitment_quotation->email = $request->email;
-        $fitment_quotation->mobile = $request->mobile;
-        $fitment_quotation->accepted = $request->accepted;
-        
-        if ($fitment_quotation->save())
-            return response()->json([
-                'success' => true,
-                'data' => $fitment_quotation->toArray()
-            ]);
-        else
+        if($fitment_quotation == null){
+            $fitment_quotation = FitmentQuotation::firstOrNew(['reference' =>  request('reference')]);
+            $fitment_quotation->vin = $request->vin;
+            $fitment_quotation->make = $request->make;
+            $fitment_quotation->manufacturer =  $request->manufacturer;
+            $fitment_quotation->year =  $request->year;
+            $fitment_quotation->registration =  $request->registration;
+            $fitment_quotation->issue_date =  date("Y-m-d", strtotime($request->issue_date));
+            $fitment_quotation->expires_date =   date("Y-m-d", strtotime($request->expires_date));
+            $fitment_quotation->fitment_cost =  $request->fitment_cost;
+            $fitment_quotation->fitment_centre_id =  $request->fitment_centre_id;
+            $fitment_quotation->first_name = $request->first_name;
+            $fitment_quotation->last_name = $request->last_name;
+            $fitment_quotation->email = $request->email;
+            $fitment_quotation->mobile = $request->mobile;
+            $fitment_quotation->accepted = $request->accepted;
+    
+            if ($fitment_quotation->save())
+                return response()->json([
+                    'success' => true,
+                    'data' => $fitment_quotation->toArray()
+                ],201);
+            else
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Quotation could not be added!'
+                ], 500);
+
+        }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Quotation could not be added!'
+                'message' => 'Quotation already created'
             ], 500);
+        }
+        
     }
 }

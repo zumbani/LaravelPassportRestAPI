@@ -8,10 +8,12 @@ Once you clone the project , run **composer install** inside the project directo
  1. Create a mysql database
  2. configure the **.env** fire with the correct database in order to connect to the database
  3. run  **php artisan migrate** to create the database structure
- 4. run **php artisan passport:install**  to generate encryption keys for creating secure access tokens
- 5. Create a new testing user by posting [**POST**] the following parameters  **[name , email , password]** to the **http://localhost:8000/api/signup**  endpoint
- 6. Signin by posting [**POST**] the following parameters  **[email , password]** to the **http://localhost:8000/api/signin**  endpoint. Once you successfully login , a token will be generated for use in all subsequent api requests.
- 7. The next operation is to post [**POST**] the image parameter   **[licence_qr]** to the **http://localhost:8000/api/quotation/request**  endpoint. Make sure under Authorization you select OAuth 2.0 and paste the Access Token returned on successful login. You sould get a result similar to the following . 
+4. run  **php artisan db:seed --class=FitmentCentresTableSeeder** a few times to create create some fitment centres records for testing
+
+ 5. run **php artisan passport:install**  to generate encryption keys for creating secure access tokens
+ 6. Create a new testing user by posting [**POST**] the following parameters  **[name , email , password]** to the **http://localhost:8000/api/signup**  endpoint
+ 7. Signin by posting [**POST**] the following parameters  **[email , password]** to the **http://localhost:8000/api/signin**  endpoint. Once you successfully login , a token will be generated for use in all subsequent api requests.
+ 8. The next operation is to post [**POST**] the image parameter   **[licence_qr]** to the **http://localhost:8000/api/quotation/request**  endpoint. Make sure under Authorization you select OAuth 2.0 and paste the Access Token returned on successful login. You sould get a result similar to the following . 
  ```
 {
     "success": true,
@@ -28,7 +30,7 @@ Once you clone the project , run **composer install** inside the project directo
     ]
 }
 ```
- 8. The next operation is to post [**POST**] the image parameter   **[licence_qr]** to the **http://localhost:8000/api/quotation/request**  endpoint. Make sure under Authorization you select OAuth 2.0 and paste the Access Token returned on successful login. You sould get a result similar to the following . 
+ 9. The next operation is to post [**POST**] the image parameter   **[licence_qr]** to the **http://localhost:8000/api/quotation/request**  endpoint. Make sure under Authorization you select OAuth 2.0 and paste the Access Token returned on successful login. You sould get a result similar to the following . 
  ```
 {
     "success": true,
